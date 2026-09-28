@@ -31,7 +31,7 @@ web/index.html (chat) ──HTTP──▶ src/server.ts ──▶ src/agente.ts 
 - En el siguiente turno el servidor calcula `confirmacionHumana` solo si el turno anterior la pidió **y** el mensaje del usuario es afirmativo sin negaciones. `simular_envio` rechaza el envío si ese valor es `false`, aunque el modelo envíe `confirmado: true`. El modelo no puede auto-confirmarse.
 
 ## 4. Elección del modelo
-- **Google Gemini 2.5 Flash** vía REST (`fetch`, sin SDK), temperatura 0.
+- **Google Gemini 3.8 Flash** vía REST (`fetch`, sin SDK), temperatura 0.
 - **Por qué**: buen *function calling*, latencia baja y costo bajo. El trabajo pesado es determinista (herramientas); el modelo solo orquesta y redacta. No se necesita un modelo grande.
 - **Costo estimado por caso**: ~5 llamadas al modelo × ~6–8 k tokens de entrada (prompt + herramientas + historial) + ~1–2 k de salida ≈ 40 k tokens, alrededor de **USD 0,01–0,02 por caso** con precios de lista de Flash (verificar la tarifa vigente). Con 12 casos al mes: menos de USD 1.
 - Cambiar de proveedor = una clase que implemente `ProveedorLLM` + un `case` en `src/llm/index.ts`. El ciclo no cambia.
