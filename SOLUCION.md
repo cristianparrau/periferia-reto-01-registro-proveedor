@@ -31,7 +31,7 @@ web/index.html (chat) ──HTTP──▶ src/server.ts ──▶ src/agente.ts 
 - En el siguiente turno el servidor calcula `confirmacionHumana` solo si el turno anterior la pidió **y** el mensaje del usuario es afirmativo sin negaciones. `simular_envio` rechaza el envío si ese valor es `false`, aunque el modelo envíe `confirmado: true`. El modelo no puede auto-confirmarse.
 
 ## 4. Elección del modelo
-- **Google Gemini 3.8 Flash** vía REST (`fetch`, sin SDK), temperatura 0.
+- **Google Gemini 3.5 Flash-Lite** vía REST (`fetch`, sin SDK), temperatura 0.
 - **Por qué**: buen *function calling*, latencia baja y costo bajo. El trabajo pesado es determinista (herramientas); el modelo solo orquesta y redacta. No se necesita un modelo grande.
 - **Costo estimado por caso**: ~5 llamadas al modelo × ~6–8 k tokens de entrada (prompt + herramientas + historial) + ~1–2 k de salida ≈ 40 k tokens, alrededor de **USD 0,01–0,02 por caso** con precios de lista de Flash (verificar la tarifa vigente). Con 12 casos al mes: menos de USD 1.
 - Cambiar de proveedor = una clase que implemente `ProveedorLLM` + un `case` en `src/llm/index.ts`. El ciclo no cambia.
@@ -46,6 +46,7 @@ web/index.html (chat) ──HTTP──▶ src/server.ts ──▶ src/agente.ts 
 ## 6. Decisiones y trade-offs
 | Decisión | Alternativa descartada | Por qué |
 |---|---|---|
+| Modelo `gemini-3.5-flash-lite` con respaldo `gemini-3.1-flash-lite` | `gemini-3.8-flash` (el más reciente) | En la capa gratuita, `gemini-3.8-flash` permite solo 20 peticiones diarias por proyecto (verificado con el error `GenerateRequestsPerDayPerProjectPerModel-FreeTier`), y además devolvió 503 por alta demanda. Un evaluador agotaría la cuota en minutos. El trabajo pesado es determinista (herramientas), así que un modelo *lite* basta para orquestar. El adaptador reintenta ante 429/503, respeta el `retryDelay` de Google y, si la cuota diaria se agota, pasa al siguiente modelo de la lista. |
 | Mapeo determinista en cascada (glosario → normalizado → clave → similitud de Dice con umbrales 0.8/0.6) | Pedirle al LLM que mapee etiquetas | Reproducible, auditable (ruta del dato) y sin alucinación. Ejemplo: "Número de contribuyente especial" se parece a "Número de cuenta" (0.49); sin umbral se habría puesto la cuenta bancaria. |
 | Las herramientas recalculan el mapeo desde el maestro; el `mapeo` que envía el modelo solo se **verifica** | Confiar en los valores que envía el modelo | Cumple CA2 por diseño: si el modelo altera un valor, la herramienta rechaza la generación. |
 | Servidor con `node:http` nativo | Express/Fastify | Cuatro rutas no justifican una dependencia. Menos superficie de ataque. |
