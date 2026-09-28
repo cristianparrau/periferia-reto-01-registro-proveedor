@@ -1,0 +1,15 @@
+{
+  "identificador_tributario": {
+    "CO": "NIT",
+    "EC": "RUC",
+    "PE": "RUC",
+    "PA": "RUC",
+    "HN": "RTN"
+  },
+  "pais_origen_maestro": "CO",
+  "etiquetas_tributarias_genericas": ["Identificación tributaria", "Número de identificación fiscal"],
+  "claves_bancarias_prefijo": "banco.",
+  "umbral_confianza": 0.8,
+  "umbral_sugerencia": 0.6,
+  "dias_alerta_vencimiento": 7
+}
