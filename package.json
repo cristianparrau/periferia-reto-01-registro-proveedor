@@ -1,0 +1,30 @@
+{
+  "name": "reto-01-registro-proveedor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agente conversacional para el registro como proveedor ante clientes",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch --import tsx src/server.ts",
+    "start": "node --env-file-if-exists=.env --import tsx src/server.ts",
+    "demo": "tsx demo.ts",
+    "typecheck": "tsc --noEmit",
+    "modulo": "tsx scripts/empaquetar-modulo.ts",
+    "test": "tsx --test \"tests/**/*.test.ts\"",
+    "verificar": "tsx scripts/verificar-entorno.ts",
+    "verificar:conexion": "tsx scripts/verificar-entorno.ts --conectar"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "pdf-lib": "^1.17.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
