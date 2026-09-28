@@ -95,3 +95,5 @@ Resultados de la demo: co-industrias-delta listo para firma (17/17 campos); ec-c
 | El modelo cambia su comportamiento con una nueva versión | Modelo fijado por variable, tests del ciclo con LLM simulado y evaluación con los casos de fixtures antes de actualizar. |
 | Abuso del link público | Topes de iteraciones y tokens; en producción, autenticación corporativa (SSO) y rate limit. |
 | Sesiones en memoria se pierden al reiniciar | Persistir sesiones en archivo o Redis si se requiere continuidad. |
+| Link público que consume la clave del modelo | Límite de mensajes por IP (`LIMITE_CHAT_POR_MINUTO`, 429 con Retry-After), tope de iteraciones y de tokens por sesión, tope de sesiones en memoria; en producción, SSO corporativo. |
+| Archivos generados descargables en `/out/` desde el link público | Los datos del reto son ficticios; en producción, `out/` no se publica y los archivos se entregan en SharePoint con permisos por rol. |
