@@ -79,13 +79,13 @@ Resultados de la demo: co-industrias-delta listo para firma (17/17 campos); ec-c
 ## 9. Uso de IA
 - **Asistente usado**: Claude (Anthropic), en modo agente con acceso a la carpeta del proyecto.
 - **Para qué**: análisis de los PRD y fixtures; propuesta de arquitectura común a los tres retos; generación del código; pruebas automatizadas (LLM simulado, validación celda por celda del Excel, determinismo entre corridas); redacción de la documentación.
-- **Decisiones propias**: runtime Node (estándar corporativo) sobre Bun, proveedor Gemini y la dinámica de trabajo (el asistente escribe, yo reviso y valido cada bloque).
+- **Decisiones propias**: runtime Node (estándar corporativo) sobre Bun, proveedor Gemini y la dinámica de trabajo (el asistente escribe, y frente a cada bloque de ejecución se realiza la revisión y aprobación para continuar con la siguiente fase).
 - **Descartado o corregido**:
   - Se descartó el mapeo con el LLM (ver trade-offs).
   - Las pruebas detectaron que la regex de confirmación usaba `\b`, que en JavaScript no reconoce "sí" con tilde y bloqueaba confirmaciones válidas. Se reemplazó por delimitadores explícitos con 15 casos de prueba.
   - Se detectó que consultar un caso inexistente creaba carpetas en `out/`, y que las notas largas se cortaban en el PDF. Ambos se corrigieron.
   - Los esquemas con `null` no son aceptados por Gemini; se adaptaron en el adaptador.
-- En la instalación desde cero se detectó que un valor no numérico en `.env` (ej. `MAX_ITERACIONES=abc`) dejaba el tope en `NaN` y el agente nunca llamaba al modelo. Se agregó la validación del entorno con zod al arrancar, `npm run verificar` y la suite `npm test`.
+- En la instalación desde cero se detectó que un valor no numérico en `.env` (ej. `MAX_ITERACIONES=abc`) dejaba el tope en `NaN` y el agente nunca llamaba al modelo. Se agregó la validación del entorno con zod al arrancar, `npm run verificar` y la suite `npm test`. Porblemas con el API KEY de Gemini, lo que hizo que se tuvieran que realizar ajustes y deploys en render.
 
 ## 10. Riesgos para producción
 | Riesgo | Mitigación |
